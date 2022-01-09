@@ -22,41 +22,30 @@ using StringTools;
 class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;
-
+	
 	var weekData:Array<Dynamic> = [
 		['Tutorial'],
-		['Bopeebo', 'Fresh', 'Dadbattle'],
-		['Spookeez', 'South', "Monster"],
-		['Pico', 'Philly', "Blammed"],
-		['Satin-Panties', "High", "Milf"],
-		['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-		['Senpai', 'Roses', 'Thorns'],
-		['Light-It-Up','Ruckus','Target-Practice']
+		['Light-It-Up','Ruckus','Target-Practice'],
+		['Sporting','Boxing-Match'],
+		['Fisticuffs','Wind-Up','Deathmatch','king-hit']
 	];
+
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true];
+	public static var weekUnlocked:Array<Bool> = [true, true, true, true];
 
 	var weekCharacters:Array<Dynamic> = [
 		['gf', 'bf', ''],
-		['dad', 'bf', 'gf'],
-		['spooky', 'bf', 'gf'],
-		['pico', 'bf', 'gf'],
-		['mom', 'bf', 'gf'],
-		['parents-christmas', 'bf', 'gf'],
-		['senpai', 'bf', 'gf'],
-		['matt', 'bf', '']
+		['matt', 'bf', 'gf'],
+		['matt', 'bf', 'gf'],
+		['matt', 'bf', 'gf']
 	];
 
 	var weekNames:Array<String> = [
 		"",
-		"Daddy Dearest",
-		"Spooky Month",
-		"PICO",
-		"MOMMY MUST MURDER",
-		"RED SNOW",
-		"hating simulator ft. moawling",
-		"Wii Funkin'"
+		"Matt's tuesday singing lessons",
+		"Matt is done wiith your shit",
+		"The true Finale"
 	];
 
 	var txtWeekTitle:FlxText;
@@ -169,6 +158,7 @@ class StoryMenuState extends MusicBeatState
 		sprDifficulty.animation.addByPrefix('easy', 'EASY');
 		sprDifficulty.animation.addByPrefix('normal', 'NORMAL');
 		sprDifficulty.animation.addByPrefix('hard', 'HARD');
+		sprDifficulty.animation.addByPrefix('old', 'OLD');
 		sprDifficulty.animation.play('easy');
 		changeDifficulty();
 
@@ -228,11 +218,20 @@ class StoryMenuState extends MusicBeatState
 				if (controls.UP_P)
 				{
 					changeWeek(-1);
+					if (curWeek < 1 && curDifficulty == 3)
+						{
+							changeDifficulty(-1);
+						}
+						
 				}
 
 				if (controls.DOWN_P)
 				{
 					changeWeek(1);
+					if (curWeek > 1 && curDifficulty == 3)
+						{
+							changeDifficulty(-1);
+						}
 				}
 
 				if (controls.RIGHT)
@@ -296,6 +295,8 @@ class StoryMenuState extends MusicBeatState
 					diffic = '-easy';
 				case 2:
 					diffic = '-hard';
+				case 3:
+					diffic = '-old';
 			}
 
 			PlayState.storyDifficulty = curDifficulty;
@@ -313,11 +314,20 @@ class StoryMenuState extends MusicBeatState
 	function changeDifficulty(change:Int = 0):Void
 	{
 		curDifficulty += change;
-
-		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
+		if (curWeek == 1)
+		{
+			if (curDifficulty < 0)
+			curDifficulty = 3;
+			if (curDifficulty > 3)
 			curDifficulty = 0;
+		}
+		else
+		{
+			if (curDifficulty < 0)
+				curDifficulty = 2;
+			if (curDifficulty > 2)
+				curDifficulty = 0;
+		}
 
 		sprDifficulty.offset.x = 0;
 
@@ -331,6 +341,9 @@ class StoryMenuState extends MusicBeatState
 				sprDifficulty.offset.x = 70;
 			case 2:
 				sprDifficulty.animation.play('hard');
+				sprDifficulty.offset.x = 20;
+			case 3:
+				sprDifficulty.animation.play('old');
 				sprDifficulty.offset.x = 20;
 		}
 

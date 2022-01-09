@@ -156,7 +156,7 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		logoBl = new FlxSprite(-150, -100);
+		logoBl = new FlxSprite(-25, 0);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = true;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
@@ -167,6 +167,7 @@ class TitleState extends MusicBeatState
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+		gfDance.x += 275;
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = true;
@@ -205,7 +206,7 @@ class TitleState extends MusicBeatState
 
 		credTextShit.visible = false;
 
-		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
+	    ngSpr = new FlxSprite(0, FlxG.height * 0.55).loadGraphic(Paths.image('ModderFunkersLogo'));
 		add(ngSpr);
 		ngSpr.visible = false;
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
@@ -305,7 +306,7 @@ class TitleState extends MusicBeatState
 
 				http.onData = function (data:String) {
 				  
-				  	if (!MainMenuState.kadeEngineVer.contains(data.trim()) && !OutdatedSubState.leftState && MainMenuState.nightly == "")
+				  	/*if (!MainMenuState.kadeEngineVer.contains(data.trim()) && !OutdatedSubState.leftState && MainMenuState.nightly == "")
 					{
 						trace('outdated lmao! ' + data.trim() + ' != ' + MainMenuState.kadeEngineVer);
 						OutdatedSubState.needVer = data;
@@ -314,12 +315,13 @@ class TitleState extends MusicBeatState
 					else
 					{
 						FlxG.switchState(new MainMenuState());
-					}
+					}*/
+					FlxG.switchState(new WarningState());
 				}
 				
 				http.onError = function (error) {
 				  trace('error: $error');
-				  FlxG.switchState(new MainMenuState()); // fail but we go anyway
+				  FlxG.switchState(new WarningState()); // fail but we go anyway
 				}
 				
 				http.request();
@@ -383,21 +385,22 @@ class TitleState extends MusicBeatState
 		switch (curBeat)
 		{
 			case 1:
-				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
+				createCoolText(['Mod of a mod', 'How funky']);
+				ngSpr.visible = true;
 			// credTextShit.visible = true;
 			case 3:
-				addMoreText('present');
 			// credTextShit.text += '\npresent...';
 			// credTextShit.addText();
 			case 4:
+				ngSpr.visible = false;
 				deleteCoolText();
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
 			case 5:
-				createCoolText(['Kade Engine', 'by']);
+				createCoolText(['Matt', 'will']);
 			case 7:
-				addMoreText('KadeDeveloper');
+				addMoreText('fuck your shit up');
 			// credTextShit.text += '\nNewgrounds';
 			case 8:
 				deleteCoolText();
@@ -418,15 +421,12 @@ class TitleState extends MusicBeatState
 			// credTextShit.text = "Friday";
 			// credTextShit.screenCenter();
 			case 13:
-				addMoreText('Friday');
+				addMoreText('MATT');
 			// credTextShit.visible = true;
 			case 14:
-				addMoreText('Night');
-			// credTextShit.text += '\nNight';
+				addMoreText('WIIK THREE');
+			// credTextShit.text += '\nNight';;
 			case 15:
-				addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
-
-			case 16:
 				skipIntro();
 		}
 	}
